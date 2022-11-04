@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Orudnev/react-flexinputmask-demo.git/static/css/main.4f452066.css",
+    "main.js": "/Orudnev/react-flexinputmask-demo.git/static/js/main.21ad4a8b.js",
+    "index.html": "/Orudnev/react-flexinputmask-demo.git/index.html",
+    "main.4f452066.css.map": "/Orudnev/react-flexinputmask-demo.git/static/css/main.4f452066.css.map",
+    "main.21ad4a8b.js.map": "/Orudnev/react-flexinputmask-demo.git/static/js/main.21ad4a8b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4f452066.css",
+    "static/js/main.21ad4a8b.js"
+  ]
+}
