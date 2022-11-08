@@ -10,7 +10,9 @@ export interface IPlaceHolderItem {
 
 export interface IInputMaskProps {
     placeHolder: IPlaceHolderItem[]; 
-    onChange?:(instance:FlexInputMask)=>boolean;   
+    onChange?:(instance:FlexInputMask)=>boolean;
+    onGotFocus?:(instance:FlexInputMask)=>void;   
+    onLostFocus?:(instance:FlexInputMask)=>void;
 }
 
 interface inputMaskPosition {
@@ -24,7 +26,7 @@ export interface IInputMaskState {
     sectionAlredyEdited: boolean[];
 }
 
-export class FlexInputMask extends React.Component<IInputMaskProps, IInputMaskState>{
+export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMaskState>{
     sectRefs: any[] = [];
     initValueArray: any[];
     sectionLengthArray: any[];

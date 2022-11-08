@@ -1,38 +1,61 @@
-.App {
-  text-align: center;
+.page{
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.page,.title{
+  font-size: 30px;
+  color: rgb(17, 9, 159);
+  margin-bottom: 15px;
+  font-weight: 700;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.wrapper{
+  min-height:100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.buttonContainer{
+  display:flex;
+  flex-direction: row;
+  gap: 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.tab-button{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 35px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 15px;
+  color:#838690;
+  background: linear-gradient(0deg,rgb(203, 201, 201),rgb(255, 255, 255));  
+  border: solid 1px #c6cad6;
+  flex: 0 1 auto;
+}
+
+.tab-button-active{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  line-height: 35px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 15px;
+  color:#FFFFFF;  
+  background: linear-gradient(0deg,#0d70ea,#0dccea); 
+  border: solid 1px #c6cad6;
+  flex: 0 1 auto;
+}
+
+.tab-button:hover {
+  box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
+  transform: scale(1.05);
+}
+
+.tab-content{
+  margin-top: 15px;
+  color: black;
+  font-size: 20px;
+  font-weight: 100;
 }

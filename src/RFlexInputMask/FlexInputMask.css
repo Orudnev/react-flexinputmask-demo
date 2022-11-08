@@ -1,5 +1,7 @@
 .flex-input-mask{
     display: flex;
+    border: solid 1px #c6cad6;
+    margin-bottom: 10px;
 }
 
 .flex-input-mask,section{
