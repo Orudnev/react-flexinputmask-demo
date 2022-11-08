@@ -1,6 +1,5 @@
-import { off } from 'process';
-import React, { Children, RefObject } from 'react';
-import './inputMask.css';
+import React from 'react';
+import './FlexInputMask.css';
 export interface IPlaceHolderItem {
     text: string;
     isPersistant?: boolean;
@@ -11,7 +10,7 @@ export interface IPlaceHolderItem {
 
 export interface IInputMaskProps {
     placeHolder: IPlaceHolderItem[]; 
-    onChange?:(instance:InputMask)=>boolean;   
+    onChange?:(instance:FlexInputMask)=>boolean;   
 }
 
 interface inputMaskPosition {
@@ -25,7 +24,7 @@ export interface IInputMaskState {
     sectionAlredyEdited: boolean[];
 }
 
-export class InputMask extends React.Component<IInputMaskProps, IInputMaskState>{
+export class FlexInputMask extends React.Component<IInputMaskProps, IInputMaskState>{
     sectRefs: any[] = [];
     initValueArray: any[];
     sectionLengthArray: any[];
