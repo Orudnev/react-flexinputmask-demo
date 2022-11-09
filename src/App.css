@@ -1,8 +1,12 @@
+body{
+  overflow: hidden;
+}
+
 .page{
   height: 100%;
   font-family: Arial, Helvetica, sans-serif;
 }
-
+ 
 .page,.title{
   font-size: 30px;
   color: rgb(17, 9, 159);
@@ -10,10 +14,12 @@
   font-weight: 700;
 }
 
-.wrapper{
-  min-height:100%;
-  display: flex;
-  flex-direction: column;
+.page,.live-demo-title{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  color: rgb(17, 9, 159);
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .buttonContainer{
@@ -54,8 +60,18 @@
 }
 
 .tab-content{
-  margin-top: 15px;
+  position: fixed;
+  top:120px;
+  bottom: 10px;
+  padding-left: 50px;
+  padding-right: 50px;  
   color: black;
   font-size: 20px;
   font-weight: 100;
+  overflow-y: auto;
+}
+.tab-content,.description{
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 15px;
 }
