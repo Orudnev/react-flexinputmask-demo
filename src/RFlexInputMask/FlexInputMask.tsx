@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import './FlexInputMask.css';
 export interface IPlaceHolderItem {
     text: string;
@@ -11,6 +11,7 @@ export interface IPlaceHolderItem {
 export interface IInputMaskProps {
     placeHolder: IPlaceHolderItem[]; 
     style?:any;
+    customCssClass?:string;
     onChange?:(instance:FlexInputMask,newValue:string)=>boolean;
     onSectionGotFocus?:(instance:FlexInputMask)=>void;   
     onSectionLostFocus?:(instance:FlexInputMask)=>void;
@@ -295,10 +296,11 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
         }
         return [section,delim];
     }
-
+  
     render() {
+        let clsStr = "flex-input-mask " + (this.props.customCssClass?this.props.customCssClass:""); 
         return (
-            <div className="flex-input-mask" style={this.props.style}>
+            <div className={clsStr} style={this.props.style} >
                 {this.props.placeHolder.map((itm, index) => {
                     return this.renderInputSection(itm, index);
                 })}

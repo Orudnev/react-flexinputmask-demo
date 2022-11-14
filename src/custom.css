@@ -1,0 +1,16 @@
+.custom-flex-input-mask1{
+    border: none;
+}
+
+.custom-flex-input-mask2{
+    border-color: green;
+}
+
+.custom-flex-input-mask2 > .inputEdited{
+    color:blue;
+}
+
+.custom-flex-input-mask2 > .delimiter{
+    color:yellow
+    ;
+}
