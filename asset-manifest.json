@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/react-flexinputmask-demo/static/css/main.cc22a3fb.css",
-    "main.js": "/react-flexinputmask-demo/static/js/main.7fe29f15.js",
+    "main.css": "/react-flexinputmask-demo/static/css/main.fbced2a4.css",
+    "main.js": "/react-flexinputmask-demo/static/js/main.7fd83ffd.js",
     "index.html": "/react-flexinputmask-demo/index.html",
-    "main.cc22a3fb.css.map": "/react-flexinputmask-demo/static/css/main.cc22a3fb.css.map",
-    "main.7fe29f15.js.map": "/react-flexinputmask-demo/static/js/main.7fe29f15.js.map"
+    "main.fbced2a4.css.map": "/react-flexinputmask-demo/static/css/main.fbced2a4.css.map",
+    "main.7fd83ffd.js.map": "/react-flexinputmask-demo/static/js/main.7fd83ffd.js.map"
   },
   "entrypoints": [
-    "static/css/main.cc22a3fb.css",
-    "static/js/main.7fe29f15.js"
+    "static/css/main.fbced2a4.css",
+    "static/js/main.7fd83ffd.js"
   ]
 }
