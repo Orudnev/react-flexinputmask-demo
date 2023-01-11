@@ -22,7 +22,7 @@ const TabButton = (props:ITabButtonProps) => {
     }
   }}>{props.caption}</div>);
 };
-
+ 
 enum TabEnum{
   Templates="Templates",
   Events="Events",
