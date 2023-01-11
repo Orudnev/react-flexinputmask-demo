@@ -101,7 +101,7 @@ function renderCreditCardDemo(){
       ]} />  
   );
 }
-
+ 
 const DemoEventsCommonUseCase = ()=>{
   const [onSectionGotFocusValue,setOnSectionGotFocusValue] = useState("");
   const [onChangeValue,setOnChangeValue] = useState("");
@@ -147,9 +147,9 @@ const DemoEventsCustomValidation = ()=>{
   return (
     <FlexInputMask style={{width:"300px"}} 
         onChange = {(instance,newValue)=>{
-          let sectionIndex = instance.state.currentPosition.sectionIndex;
+          let sectionIndex = instance.state.selectedSectionIndex;
           if( sectionIndex!= 0){
-            //in is not 0 section, no need to validate
+            //it is not 0 section, no need to validate
             return true;
           } 
           return (newValue != "1234");

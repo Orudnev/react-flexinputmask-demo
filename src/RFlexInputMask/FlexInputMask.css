@@ -36,9 +36,53 @@
 }
 
 .flex-input-mask,.delimiter{
-    color:red
-    ;
+    color:red;
 }
 
+/*****************************************/
+
+.fim-root{
+    border: solid 1px #c6cad6;
+}
+
+.fim-root:focus,.fim-root:focus-visible{
+    border: solid 3px #c6cad6;
+}
+
+
+.fim-root__section{
+    display: inline-block;
+    text-decoration-style: none;
+    font-size: 30px;
+}
+
+.fim-root__symbol{
+    display: inline-block;
+    color:#c6cad6;   
+}
+
+.fim-root__symbol_edited{
+    color:black;   
+}
+
+
+.fim-root__delimiter{
+    display: inline-block;
+    color:#7472a1;  
+}
+
+.fim-root__symbol_focusedReplace{
+    border: solid 2px red;
+}   
+
+.fim-root__symbol_focusedInsert{
+    border-left: solid 2px red;
+}   
+
+
+.fim-root__symbol_emptyTerminated{
+    width: 2px;
+    height: 20px;
+}
 
 
