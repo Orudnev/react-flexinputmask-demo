@@ -389,24 +389,28 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
             this.gotoNextSection();
             return;
         }
+        let ph = this.props.placeHolder[this.state.selectedSectionIndex];
         let oldSection = this.state.valueArray[this.state.selectedSectionIndex];
         let updSymb = { ...oldSection.items[this.state.selectedPositionStart] };
         let newPosition = this.state.selectedPositionStart + 1;
         let currEditMode = this.getEditMode();
+        if (!ph.isVariableLength
+            && this.state.selectedSectionIndex == this.state.valueArray.length-1
+            && newPosition > oldSection.items.length) {
+                return;
+        }
+
         if (!updSymb.changed && newPosition < oldSection.items.length) {
             currEditMode = EditMode.replace;
         }
         let newSectionItems = [...oldSection.items];
         let newValueArray = [...this.state.valueArray];
         let emptyItm: IsymbolItem = { charValue: " ", changed: true };
-        if(char=="l"){
-            let s=1;
-        }
         if (currEditMode == EditMode.replace) {
             updSymb.charValue = char;
             updSymb.changed = true;
             newSectionItems[this.state.selectedPositionStart] = updSymb;
-            if (newPosition == oldSection.items.length) {
+            if (ph.isVariableLength && newPosition == oldSection.items.length) {
                 currEditMode = EditMode.insert;
                 newSectionItems.push(emptyItm);
             }
@@ -435,7 +439,12 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
         }
         newValueArray[this.state.selectedSectionIndex].items = newSectionItems;        
         this.setState({ valueArray: newValueArray, selectedPositionStart: newPosition, editMode: currEditMode },
-            ()=>this.fireChangedEvent());
+            ()=>{
+                this.fireChangedEvent();
+                if (currEditMode==EditMode.replace && newPosition > newSectionItems.length-1){
+                    this.gotoNextSection();
+                }        
+            });
     }
 
     renderInputSection(ph: IPlaceHolderItem, sectionIndex: number) {
