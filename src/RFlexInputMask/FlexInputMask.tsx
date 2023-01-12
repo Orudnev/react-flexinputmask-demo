@@ -12,7 +12,8 @@ export interface IInputMaskProps {
     placeHolder: IPlaceHolderItem[];
     style?: any;
     customCssClass?: string;
-    onChange?: (instance: FlexInputMask, newValue: string) => boolean;
+    onChanging?: (instance: FlexInputMask, newValue: string) => boolean;
+    onChanged?: (instance: FlexInputMask) => void;
     onSectionGotFocus?: (instance: FlexInputMask) => void;
     onSectionLostFocus?: (instance: FlexInputMask) => void;
 }
@@ -119,12 +120,30 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
     }
 
     componentDidUpdate(prevProps: Readonly<IInputMaskProps>, prevState: Readonly<IInputMaskState>, snapshot?: any): void {
-        if (this.rootRef.current) {
-            let currSectElm = this.rootRef.current.getElementsByClassName("fim-root__section")[this.state.selectedSectionIndex];
-            let currSymbElm = currSectElm.getElementsByClassName("fim-root__symbol")[this.state.selectedPositionStart];
-            let div = (currSymbElm as HTMLDivElement);
-            //div.focus();
-            console.log("didupdate", this.state.selectedPositionStart);
+    }
+
+    fireChangingEvent(newSectionValueStr:string):boolean{
+        if(this.props.onChanging){
+            return this.props.onChanging(this,newSectionValueStr);
+        }
+        return true;
+    }
+
+    fireChangedEvent(){
+        if (this.props.onChanged) {
+            this.props.onChanged(this);
+        }
+    }
+
+    fireGotFocusEvent(){
+        if (this.props.onSectionGotFocus) {
+            this.props.onSectionGotFocus(this);
+        }
+    }
+    
+    fireLostFocusEvent(){
+        if (this.props.onSectionLostFocus) {
+            this.props.onSectionLostFocus(this);
         }
     }
 
@@ -141,18 +160,19 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
 
     getFormattedValue(includeDelimiters: boolean = true) {
         let result = "";
-        let sourceData = this.state.valueArray;
-        if (this.notCommitedValueArray.length > 0) {
-            sourceData = this.notCommitedValueArray;
-        }
         this.props.placeHolder.forEach((ph, index) => {
             if (ph.isPersistant) {
                 return;
             }
+            let sectionValueStr = "";
+            this.state.valueArray[index].items.forEach(itm=>{
+                if(itm.charValue && itm.charValue!=" "){
+                    sectionValueStr+=itm.charValue
+                }});
             if (includeDelimiters && ph.delimiterText) {
-                result += sourceData[index] + ph.delimiterText;
+                result += sectionValueStr + ph.delimiterText;
             } else {
-                result += sourceData[index];
+                result += sectionValueStr;
             }
         });
         return result;
@@ -209,7 +229,9 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
                     itm.changed = true;
                 }
             }));
-            this.setState({ selectedSectionIndex: newSectionIndex,selectedPositionStart:0,editMode:edMode,valueArray:newValueArray });
+            this.setState(
+                {selectedSectionIndex: newSectionIndex,selectedPositionStart:0,editMode:edMode,valueArray:newValueArray },
+                ()=>this.fireGotFocusEvent());
         }    
     }
 
@@ -221,13 +243,13 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
             }
             let newSection = this.state.valueArray[newSectionIndex];
             let edMode = this.getEditMode(newSectionIndex,0);    
-            this.setState({ selectedSectionIndex: newSectionIndex,selectedPositionStart:newSection.items.length-1,editMode:edMode });
+            this.setState(
+                {selectedSectionIndex: newSectionIndex,selectedPositionStart:newSection.items.length-1,editMode:edMode},
+                ()=>this.fireLostFocusEvent());
         }    
     }
-
  
     handleKeyboardInput(keyboardKey:string,e: React.KeyboardEvent<HTMLDivElement>|undefined = undefined ) {
-        console.log(e);
         let section = this.state.valueArray[this.state.selectedSectionIndex];
         let prevSection:IsectionValue|null = null;
         let preventDefault = ()=>{
@@ -270,7 +292,6 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
             case "ArrowRight":
                 if (this.state.selectedPositionStart < section.items.length - 1) {
                     setPosition(this.state.selectedPositionStart + 1)
-                    console.log("right:",this.state.selectedPositionStart + 1);
                 } else {
                     this.gotoNextSection();
                 }
@@ -315,9 +336,7 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
     }
 
     handleSectionGotFocus(event: any) {
-        if (this.props.onSectionGotFocus) {
-            this.props.onSectionGotFocus(this);
-        }
+        this.fireGotFocusEvent();
         if (!event.target.id) {
             return;
         }
@@ -353,23 +372,10 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
                 editMode: edMode,
                 valueArray: newValueArray
             });
-        console.log("newPosition:", position);
     }
 
     handleSectionLostFocus(event: any) {
-        return;
-        let fireLostFocusEvent = () => {
-            if (this.props.onSectionLostFocus) {
-                this.props.onSectionLostFocus(this);
-            }
-        }
-        fireLostFocusEvent();
-        const [sectionIndex, position] = event.target.id.split("_");
-        this.setState(
-            {
-                selectedSectionIndex: sectionIndex,
-                selectedPositionStart: position,
-            });
+        this.fireLostFocusEvent();
     }
 
     setSymbolAsChanged(symbProps: IMaskSymbolProps) {
@@ -417,12 +423,19 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
             }
         }
         let newValueStr = "";
-        newSectionItems.forEach(itm => newValueStr += itm.charValue);
-        if (!this.validateChanges(this.state.selectedSectionIndex, newValueStr.trim())) {
+        newSectionItems.forEach(itm=>{
+            if(itm.charValue && itm.charValue!=" "){
+                newValueStr+=itm.charValue
+            }});            
+        if (!this.validateChanges(this.state.selectedSectionIndex, newValueStr)) {
             return;
         }
-        newValueArray[this.state.selectedSectionIndex].items = newSectionItems;
-        this.setState({ valueArray: newValueArray, selectedPositionStart: newPosition, editMode: currEditMode }, () => console.log("set:", this.state));
+        if(!this.fireChangingEvent(newValueStr)){
+            return;
+        }
+        newValueArray[this.state.selectedSectionIndex].items = newSectionItems;        
+        this.setState({ valueArray: newValueArray, selectedPositionStart: newPosition, editMode: currEditMode },
+            ()=>this.fireChangedEvent());
     }
 
     renderInputSection(ph: IPlaceHolderItem, sectionIndex: number) {
@@ -477,9 +490,6 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
         }
         let regex = new RegExp(regexStr);
         let rv = regex.test(textToValidate);
-        if (!rv) {
-            console.log(textToValidate, rv, this.state);
-        }
         return rv;
     }
 }
