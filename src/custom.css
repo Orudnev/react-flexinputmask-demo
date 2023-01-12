@@ -6,11 +6,10 @@
     border-color: green;
 }
 
-.custom-flex-input-mask2 > .inputEdited{
+.custom-flex-input-mask2 > .fim-root__section > .fim-root__symbol_edited{
     color:blue;
 }
 
-.custom-flex-input-mask2 > .delimiter{
-    color:yellow
-    ;
-}
+.custom-flex-input-mask2 > .fim-root__section >.fim-root__delimiter{
+    color:red;
+} 

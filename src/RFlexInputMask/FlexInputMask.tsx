@@ -106,7 +106,7 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
                 let newItem: IsectionValue = { items: sitems };
                 return newItem;
             });
-        }
+        } 
         let currSectInd = props.placeHolder.findIndex(s => !s.isPersistant);
         this.state = {
             focused: false,
@@ -225,7 +225,8 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
             let edMode = this.getEditMode(newSectionIndex,0);    
             let newValueArray = [...this.state.valueArray];
             newValueArray.forEach((sect, sectIndex) => sect.items.forEach((itm, itmIndex) => {
-                if (sectIndex < newSectionIndex) {
+                let ph = this.props.placeHolder[sectIndex];
+                if (sectIndex < newSectionIndex && !ph.isPersistant) {
                     itm.changed = true;
                 }
             }));
@@ -343,6 +344,10 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
         let [sectionIndexStr, positionStr] = event.target.id.split("_");
         let sectionIndex = parseInt(sectionIndexStr);
         let sectionValue = this.state.valueArray[sectionIndex];
+        let ph = this.props.placeHolder[sectionIndex];
+        if(ph.isPersistant){
+            return;
+        }
 
         let position = parseInt(positionStr);
         let allSymbolsUnchanged = !sectionValue.items.some(itm => itm.changed);
@@ -470,7 +475,7 @@ export class FlexInputMask extends React.PureComponent<IInputMaskProps, IInputMa
 
 
     render() {
-        let clsStr = "fim-root" + (this.props.customCssClass ? this.props.customCssClass : "");
+        let clsStr = "fim-root " + (this.props.customCssClass ? this.props.customCssClass : "");
         return (
             <div tabIndex={0} ref={this.rootRef} className={clsStr} style={this.props.style}
                 onFocus={(e) => {
